@@ -19,7 +19,8 @@ df = pd.read_csv("data.csv")
 X = df.iloc[:,1:-1]
 y = df.iloc[:,-1]
 
-# chuẩn hoá dữ liệu đưa dữ liệu từ text sang number
+# convert dữ liệu đưa dữ liệu từ text sang number
+
 encoder = ce.OrdinalEncoder(cols=['Gender','Stream'])
 X = encoder.fit_transform(X)
 
@@ -50,22 +51,25 @@ for train_index, test_index in kf.split(X):
     X_test, y_test = X.iloc[test_index, :], y[test_index]
     X_train, y_train = X.iloc[train_index, :], y[train_index]
 
+    # Tiến hành huấn luyện mô hình
     model.fit(X_train, y_train)
     pred_values = model.predict(X_test)
+
+    #Dùng các độ đo để kiểm tra mô hình dự đoán
     precision = precision_score(pred_values, y_test, average='macro')
     recall = recall_score(pred_values, y_test, average='macro')
     f_score = f1_score(pred_values, y_test, average='macro')
 
-    acc = accuracy_score(pred_values, y_test) * 100
+    accuracy = accuracy_score(pred_values, y_test) * 100
 
-    print(i, '-- Tỷ lệ dự đoán chính xác tập test', rnd(acc), '%')
+    print(i, '-- Tỷ lệ dự đoán chính xác tập test', rnd(accuracy), '%')
     print("Precision     : ", precision )
     print("Recall        : ", recall )
     print("F1-score      : ", f_score )
 
-    acc_score.append(acc)
-    if acc > best_score:
-        best_score = acc
+    acc_score.append(accuracy)
+    if accuracy > best_score:
+        best_score = accuracy
         best_model = model
         turn = i
 
