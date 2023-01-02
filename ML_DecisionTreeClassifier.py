@@ -9,7 +9,7 @@ from sklearn.metrics import precision_score
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 from sklearn.tree import DecisionTreeClassifier
-import matplotlib.pyplot as plt
+
 from sklearn.model_selection import train_test_split
 
 
